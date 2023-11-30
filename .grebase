@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Exit immediately if any line fails
+set -e
+
+# ANSI styling helpers
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+CYAN=$(tput setaf 6)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+usage () {
+  echo "${BOLD}lrebase${RESET}"
+  echo "Rebase current git branch to latest remote of target branch (default main)"
+  echo "Usage:"
+  echo -e "  -h --help\n      Show this message"
+  echo -e "  -q\n      Quick! Skip the countdown timer"
+  echo -e "  -b\n      Specify target branch you want to rebase off of (default main)"
+}
+
+# default values
+curr=$(git rev-parse --abbrev-ref HEAD)
+base=main
+quick=false
+
+if [ "${1}" == "--help" ]; then
+  usage
+  exit
+fi
+
+# get args and flags
+while getopts hqb: flag; do
+  case "${flag}" in
+    h)
+      usage
+      exit
+      ;;
+    q) quick=true ;;
+    b) base=$OPTARG ;;
+  esac
+done
+
+rebase_msg="Rebasing ${GREEN}$curr${RESET} to latest remote of ${CYAN}$base${RESET}"
+
+if [ "$quick" == false ]; then
+  for i in 3 2 1
+  do
+    echo -ne "\r${rebase_msg} in ${BOLD}${RED}$i${RESET}"
+    sleep 1
+  done
+  echo -e "\n${BOLD}Rebase!${RESET}"
+else
+  echo -e $rebase_msg
+fi
+
+git checkout $base && git pull && git checkout $curr && git rebase $base
