@@ -1,0 +1,42 @@
+# kubernetes
+alias k8s="kubectl"
+
+# start lever apps
+source ~/.app_startup
+
+# reinstall dependencies
+reinstall-xcode () {
+  sudo rm -rf /Library/Developer/CommandLineTools
+  xcode-select --install
+}
+
+renpm () {
+  if [ -d node_modules ]; then
+    rm -rf node_modules
+  fi
+  npm install --no-save
+}
+
+# git pull all repos
+function git-pull-all () {
+  cd ~/lever
+  for d in $(ls -ld -- */ | awk '{print $9}')
+  do
+    cd ./$d
+    git checkout main
+    git pull
+    cd ../
+  done
+}
+
+# git shortcuts
+alias gcm="git commit -m"
+alias gpo="git push origin"
+alias gch="git checkout"
+alias gaa="git add ."
+alias grh="git reset --hard HEAD"
+alias grebase="~/.grebase"
+function gpc () {
+  curr=$(git rev-parse --abbrev-ref HEAD)
+  git pull origin $curr
+}
