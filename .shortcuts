@@ -1,9 +1,6 @@
 # kubernetes
 alias k8s="kubectl"
 
-# start lever apps
-source ~/.app_startup
-
 # reinstall dependencies
 reinstall-xcode () {
   sudo rm -rf /Library/Developer/CommandLineTools
