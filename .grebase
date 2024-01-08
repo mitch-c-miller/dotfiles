@@ -24,7 +24,7 @@ curr=$(git rev-parse --abbrev-ref HEAD)
 base=main
 quick=false
 
-if [ "${1}" == "--help" ]; then
+if [[ "${1}" == "--help" ]]; then
   usage
   exit
 fi
@@ -43,7 +43,7 @@ done
 
 rebase_msg="Rebasing ${GREEN}$curr${RESET} to latest remote of ${CYAN}$base${RESET}"
 
-if [ "$quick" == false ]; then
+if [[ "$quick" == false ]]; then
   for i in 3 2 1
   do
     echo -ne "\r${rebase_msg} in ${BOLD}${RED}$i${RESET}"
