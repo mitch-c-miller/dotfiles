@@ -16,18 +16,6 @@ renpm () {
   npm install --no-save
 }
 
-# git pull all repos
-function git-pull-all () {
-  cd ~/lever
-  for d in $(ls -ld -- */ | awk '{print $9}')
-  do
-    cd ./$d
-    git checkout main
-    git pull
-    cd ../
-  done
-}
-
 # git shortcuts
 alias gcm="git commit -m"
 alias gpo="git push origin"
